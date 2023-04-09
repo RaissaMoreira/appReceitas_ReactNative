@@ -4,10 +4,14 @@ import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import api from '../../services/api';
 import {FoodList} from '../../components/foodList';
+import { useNavigation } from "@react-navigation/native";
+import { Text as MotiText } from 'moti';
 
 export function Home(){
   const [inputValue, setInputValue] = useState("");
   const [foods, setFoods] = useState([]);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     async function fetchApi(){
@@ -19,14 +23,49 @@ export function Home(){
   }, [])
 
   function handleSearch() {
-    console.log(inputValue);
+    if(!inputValue) return;
+
+    let input = inputValue;
+    setInputValue("");
+    navigation.navigate("Search", {name: input});
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <Logo/>
-      <Text style={styles.title}>Encontre a receita</Text>
-      <Text style={styles.title}>que combina com você</Text>
+      <MotiText 
+        style={styles.title}
+        from={{
+          opacity: 0,
+          translateY: 15
+        }}
+        animate={{
+          opacity: 1,
+          translateY: 0
+        }}
+        transition={{
+          delay: 100,
+          type: 'timing',
+          duration: 650
+        }}
+      >Encontre a receita</MotiText>
+
+      <MotiText 
+        style={styles.title}
+        from={{
+          opacity: 0,
+          translateY: 18
+        }}
+        animate={{
+          opacity: 1,
+          translateY: 0
+        }}
+        transition={{
+          delay: 200,
+          type: 'timing',
+          duration: 850
+        }}
+      >que combina com você</MotiText>
 
       <View style={styles.form}>
         <TextInput
@@ -36,7 +75,7 @@ export function Home(){
           onChangeText={(text) => setInputValue(text)}
         />
         <TouchableOpacity onPress={handleSearch}>
-          <Ionicons name="search" size={28} color="#4cbe6c" />
+          <Ionicons name="search" size={28} color="#a953fc" />
         </TouchableOpacity>
       </View>
 
@@ -53,7 +92,7 @@ export function Home(){
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f3f9ff',
+    backgroundColor: '#E9EBEA',
     paddingTop: 36,
     paddingStart: 14,
     paddingEnd: 14
@@ -62,7 +101,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 26,
     fontWeight: "bold",
-    color: "#0e0e0e"
+    color: "#2F3A4C"
   },
 
   form: {
